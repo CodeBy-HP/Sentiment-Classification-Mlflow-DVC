@@ -1,0 +1,82 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv
+venv/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+
+# Project specific
+*.log
+.env
+.env.local
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+docs/
+
+# Data files (not needed in container)
+data/
+notebooks/
+tests/
+reports/
+
+# MLflow artifacts (will be loaded at runtime)
+mlruns/
+mlartifacts/
+
+# DVC
+.dvc/
+dvc.lock
+
+# Other
+*.md
+!README.md
+load_model_test.py
