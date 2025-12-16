@@ -60,21 +60,46 @@
                 </form>
 
                 {% if result is not none %}
+                <button
+                    onclick="window.location.href='/'"
+                    class="w-full mt-4 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition-all duration-300"
+                >
+                    New Analysis
+                </button>
+                {% endif %}
+
+                {% if result is not none %}
                 <div class="mt-8 pt-6 border-t border-gray-700 fade-in" style="animation-delay: 0.4s;">
                     {% if result == 1 %}
                     <div class="flex items-start space-x-4 bg-green-500/10 border border-green-500/30 text-green-300 px-5 py-4 rounded-lg">
                         <svg class="w-6 h-6 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
+                        <div class="flex-1">
                             <h4 class="text-lg font-semibold">Positive Sentiment</h4>
                             <p class="text-sm text-green-300/80">The analysis indicates a positive tone.</p>
+                            {% if confidence %}
+                            <div class="mt-2">
+                                <span class="text-xs font-medium text-green-400">Confidence: {{ "%.2f"|format(confidence) }}%</span>
+                                <div class="w-full bg-gray-700 rounded-full h-2 mt-1">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: {{ confidence }}%"></div>
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     {% else %}
                     <div class="flex items-start space-x-4 bg-red-500/10 border border-red-500/30 text-red-300 px-5 py-4 rounded-lg">
                         <svg class="w-6 h-6 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
+                        <div class="flex-1">
                             <h4 class="text-lg font-semibold">Negative Sentiment</h4>
                             <p class="text-sm text-red-300/80">The analysis indicates a negative tone.</p>
+                            {% if confidence %}
+                            <div class="mt-2">
+                                <span class="text-xs font-medium text-red-400">Confidence: {{ "%.2f"|format(confidence) }}%</span>
+                                <div class="w-full bg-gray-700 rounded-full h-2 mt-1">
+                                    <div class="bg-red-500 h-2 rounded-full" style="width: {{ confidence }}%"></div>
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     {% endif %}

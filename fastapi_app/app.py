@@ -125,7 +125,7 @@ def get_latest_model_version(model_name):
 model_version = get_latest_model_version(model_name)
 model_uri = f'models:/{model_name}/{model_version}'
 print(f"Fetching model from: {model_uri}")
-model = mlflow.pyfunc.load_model(model_uri)
+model = mlflow.sklearn.load_model(model_uri)
 vectorizer = pickle.load(open(vectorizer_path, 'rb'))
 
 # Routes
@@ -152,11 +152,16 @@ async def predict(request: Request, text: str = Form(...)):
     # Predict
     result = model.predict(features_array)
     prediction = int(result[0])
+    
+    # Get probability scores for confidence
+    # Note: predict_proba returns [prob_negative, prob_positive]
+    probabilities = model.predict_proba(features_array)[0]
+    confidence = float(probabilities[prediction]) * 100  # Convert to percentage
 
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={"result": prediction}
+        context={"result": prediction, "confidence": confidence}
     )
 
 @app.get("/health")

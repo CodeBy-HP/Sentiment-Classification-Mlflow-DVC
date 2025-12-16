@@ -5,7 +5,7 @@ stages:
     deps:
     - path: sentiment_classification/data/data_ingestion.py
       hash: md5
-      md5: 57379cd401dfaacfc30a24013a2b4545
+      md5: 5b5c0690db300f5e94a5f6c33daa5de2
       size: 3534
     params:
       params.yaml:
@@ -13,16 +13,16 @@ stages:
     outs:
     - path: data/raw
       hash: md5
-      md5: 000ab4d5bea03b91fbb1bcf1c62d8172.dir
-      size: 647574
+      md5: 2f83311a9194cefdb83d03f340cce5c2.dir
+      size: 1321255
       nfiles: 2
   data_preprocessing:
     cmd: python sentiment_classification/data/data_preprocessing.py
     deps:
     - path: data/raw
       hash: md5
-      md5: 000ab4d5bea03b91fbb1bcf1c62d8172.dir
-      size: 647574
+      md5: 2f83311a9194cefdb83d03f340cce5c2.dir
+      size: 1321255
       nfiles: 2
     - path: sentiment_classification/data/data_preprocessing.py
       hash: md5
@@ -31,16 +31,16 @@ stages:
     outs:
     - path: data/interim
       hash: md5
-      md5: 639d65f7990bc064a2164de4695e5b86.dir
-      size: 398883
+      md5: 8a1ea1fef335cec0b306e00385b80af2.dir
+      size: 816264
       nfiles: 2
   feature_engineering:
     cmd: python sentiment_classification/features/feature_engineering.py
     deps:
     - path: data/interim
       hash: md5
-      md5: 639d65f7990bc064a2164de4695e5b86.dir
-      size: 398883
+      md5: 8a1ea1fef335cec0b306e00385b80af2.dir
+      size: 816264
       nfiles: 2
     - path: sentiment_classification/features/feature_engineering.py
       hash: md5
@@ -48,24 +48,24 @@ stages:
       size: 3371
     params:
       params.yaml:
-        feature_engineering.max_features: 50
+        feature_engineering.max_features: 10000
     outs:
     - path: data/processed
       hash: md5
-      md5: bdf1f639771b611494d93b8fa2dce96e.dir
-      size: 51889
+      md5: bd87f7235aacf49be1ff5da94fd33c42.dir
+      size: 20101061
       nfiles: 2
     - path: models/vectorizer.pkl
       hash: md5
-      md5: dcfa14581c245bfe1569c59bc98a15b6
-      size: 1658
+      md5: 01334fd7f53d766d7204313ef54deb45
+      size: 250077
   model_building:
     cmd: python sentiment_classification/modeling/model_building.py
     deps:
     - path: data/processed
       hash: md5
-      md5: bdf1f639771b611494d93b8fa2dce96e.dir
-      size: 51889
+      md5: bd87f7235aacf49be1ff5da94fd33c42.dir
+      size: 20101061
       nfiles: 2
     - path: sentiment_classification/modeling/model_building.py
       hash: md5
@@ -74,36 +74,36 @@ stages:
     outs:
     - path: models/model.pkl
       hash: md5
-      md5: 46fec4bc2989022faffbc4574ae7fd96
-      size: 1114
+      md5: 903d6eba416e09034e6cbae8c5b15732
+      size: 80725
   model_evaluation:
     cmd: python sentiment_classification/modeling/model_evaluation.py
     deps:
     - path: models/model.pkl
       hash: md5
-      md5: 46fec4bc2989022faffbc4574ae7fd96
-      size: 1114
+      md5: 903d6eba416e09034e6cbae8c5b15732
+      size: 80725
     - path: sentiment_classification/modeling/model_evaluation.py
       hash: md5
-      md5: b57b463565d0c0be0b81cd9f7f67b00a
-      size: 5458
+      md5: 7986d26a46c8395460ed3deee5272c7c
+      size: 5455
     outs:
     - path: reports/experiment_info.json
       hash: md5
-      md5: df37474e945ce965376717c8931d8265
+      md5: a6322f6fd65d9c27517017747b346a91
       size: 82
     - path: reports/metrics.json
       hash: md5
-      md5: b97143a25c8441b7445778fc927eeaf5
-      size: 131
+      md5: 7de17b849b25ab21860b593870ea0234
+      size: 119
   model_registration:
     cmd: python sentiment_classification/modeling/register_model.py
     deps:
     - path: reports/experiment_info.json
       hash: md5
-      md5: df37474e945ce965376717c8931d8265
+      md5: a6322f6fd65d9c27517017747b346a91
       size: 82
     - path: sentiment_classification/modeling/register_model.py
       hash: md5
-      md5: 3893c5b5653dad1b486f7ac41e6e55ed
-      size: 3092
+      md5: f0b1ed5725c3616d0c7a80b4561c5a09
+      size: 3089
