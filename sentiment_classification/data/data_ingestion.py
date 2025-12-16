@@ -8,7 +8,15 @@ from sklearn.model_selection import train_test_split
 import yaml
 import logging
 from sentiment_classification.logger import logging
-# from sentiment_classification.connections import s3_connection
+from sentiment_classification.connections import s3_connection
+import dotenv
+
+dotenv.load_dotenv()
+
+# CREDS
+bucketname=os.getenv("BUCKET_NAME")
+accesskey=os.getenv("ACCESS_KEY")
+secretkey=os.getenv("SECRET_ACCESS_KEY")
 
 
 def load_params(params_path: str) -> dict:
@@ -76,7 +84,8 @@ def main():
         # test_size = 0.2
         
         df = load_data(data_url='https://raw.githubusercontent.com/CodeBy-HP/Sentiment-Classification-Mlflow-DVC/refs/heads/main/notebooks/data.csv')
-        # s3 = s3_connection.s3_operations("bucket-name", "accesskey", "secretkey")
+        
+        # s3 = s3_connection.s3_operations(bucketname,accesskey,secretkey)
         # df = s3.fetch_file_from_s3("data.csv")
 
         final_df = preprocess_data(df)
