@@ -18,8 +18,8 @@ class FastAPIAppTests(unittest.TestCase):
         """Test the predict endpoint with sample text."""
         response = self.client.post('/predict', data={"text": "I love this movie! It was amazing!"})
         self.assertEqual(response.status_code, 200)
-        # Check if response contains result content
-        self.assertIn('result', response.text.lower() or 'sentiment' in response.text.lower())
+        # Check if response contains sentiment result
+        self.assertIn('sentiment', response.text.lower())
 
     def test_predict_negative_sentiment(self):
         """Test prediction with negative sentiment text."""
