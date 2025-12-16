@@ -96,7 +96,9 @@ mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
 app = FastAPI(title="Sentiment Analysis API", version="1.0.0")
 
 # Set up Jinja2 templates
-templates = Jinja2Templates(directory="templates")
+current_file_dir = os.path.dirname(os.path.abspath(__file__))
+templates_dir = os.path.join(current_file_dir, "templates")
+templates = Jinja2Templates(directory=templates_dir)
 
 # ------------------------------------------------------------------------------------------
 # Model and vectorizer setup
@@ -126,7 +128,11 @@ vectorizer = pickle.load(open(vectorizer_path, 'rb'))
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Render the home page."""
-    return templates.TemplateResponse("index.html", {"request": request, "result": None})
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+        context={"result": None}
+    )
 
 @app.post("/predict", response_class=HTMLResponse)
 async def predict(request: Request, text: str = Form(...)):
@@ -136,13 +142,18 @@ async def predict(request: Request, text: str = Form(...)):
     
     # Convert to features
     features = vectorizer.transform([cleaned_text])
-    features_df = pd.DataFrame(features.toarray(), columns=[str(i) for i in range(features.shape[1])])
+    # Convert to array without column names to avoid sklearn warning
+    features_array = features.toarray()
 
     # Predict
-    result = model.predict(features_df)
+    result = model.predict(features_array)
     prediction = int(result[0])
 
-    return templates.TemplateResponse("index.html", {"request": request, "result": prediction})
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+        context={"result": prediction}
+    )
 
 @app.get("/health")
 async def health_check():
