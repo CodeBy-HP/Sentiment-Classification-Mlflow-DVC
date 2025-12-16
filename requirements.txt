@@ -27,6 +27,7 @@ xgboost==3.1.2
 # Interface
 # =========================
 fastapi==0.115.5
+python-multipart==0.0.18
 
 # =========================
 # NLP (sentiment)
