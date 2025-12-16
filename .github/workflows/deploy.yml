@@ -28,7 +28,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: run pipeline
-        # env:
-        #   CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
+        env:
+          CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
         run: |
           dvc repro
