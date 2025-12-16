@@ -101,6 +101,14 @@ templates = Jinja2Templates(directory="templates")
 # ------------------------------------------------------------------------------------------
 # Model and vectorizer setup
 model_name = "my_model"
+
+# Get the path to the vectorizer file
+current_dir = os.path.dirname(os.path.abspath(__file__))
+vectorizer_path = os.path.join(current_dir, '..', 'models', 'vectorizer.pkl')
+if not os.path.exists(vectorizer_path):
+    # Try alternative path for CI environment
+    vectorizer_path = os.path.join(os.getcwd(), 'models', 'vectorizer.pkl')
+
 def get_latest_model_version(model_name):
     client = mlflow.MlflowClient()
     latest_version = client.get_latest_versions(model_name, stages=["Production"])
@@ -112,7 +120,7 @@ model_version = get_latest_model_version(model_name)
 model_uri = f'models:/{model_name}/{model_version}'
 print(f"Fetching model from: {model_uri}")
 model = mlflow.pyfunc.load_model(model_uri)
-vectorizer = pickle.load(open('../models/vectorizer.pkl', 'rb'))
+vectorizer = pickle.load(open(vectorizer_path, 'rb'))
 
 # Routes
 @app.get("/", response_class=HTMLResponse)
