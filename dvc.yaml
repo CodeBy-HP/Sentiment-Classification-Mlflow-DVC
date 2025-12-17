@@ -45,7 +45,7 @@ stages:
     metrics:
     - reports/metrics.json
     outs:
-    - reports/experiment_info.json  # Add the model_info.json file as an output
+    - reports/experiment_info.json  
 
   model_registration:
     cmd: python sentiment_classification/modeling/register_model.py

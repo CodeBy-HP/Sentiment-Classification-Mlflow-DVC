@@ -1,61 +1,151 @@
-# Sentiment-Classification
+<div align="center">
 
-<a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
-    <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
-</a>
+# 🎭 Sentiment Classification - MLOps Pipeline
 
-End-to-end sentiment classification project
+*Production-grade sentiment analysis with automated experimentation, testing, and deployment*
 
-## Project Organization
+[![Python](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/)
+[![MLflow](https://img.shields.io/badge/MLflow-2.15.0-0194E2.svg)](https://mlflow.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115.5-009688.svg)](https://fastapi.tiangolo.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](https://www.docker.com/)
+[![DVC](https://img.shields.io/badge/DVC-Enabled-945DD6.svg)](https://dvc.org/)
+
+</div>
+
+---
+
+## 🎯 Overview
+
+End-to-end MLOps system for sentiment analysis featuring **automated experimentation**, **intelligent model promotion**, and **cloud deployment**. The pipeline systematically compares 10 model combinations and deploys only when quality improves.
+
+---
+
+## 🌈 User Interface
+
+<!-- Add your FastAPI interface screenshot here -->
+
+---
+
+## 🌈 Video Demo
+
+<!-- Add your demo video here -->
+
+---
+
+## 🌈 Architecture and Workflow Diagrams
+
+<!-- Add your architecture diagrams here -->
+
+---
+
+## ✨ Key Features
+
+### 🔬 **SYSTEMATIC EXPERIMENTATION**
+- Tested multiple models with BoW and TF-IDF
+- Tracked all experiments using MLflow
+
+### 🔄 **AUTOMATED ML PIPELINE**
+- End-to-end DVC pipeline for data → model
+- Fully reproducible with versioned parameters
+
+### 🎯 **SMART MODEL PROMOTION**
+- Automatically promotes only high-quality models
+- Uses MLflow registry for staging and production
+
+### 🚀 **COMPLETE CI/CD PIPELINE**
+- Automated builds and deployments via GitHub Actions
+- Dockerized deployment on AWS EC2
+
+### 🧪 **COMPREHENSIVE TESTING**
+- Validates model performance and API endpoints
+- Prevents faulty models from being deployed
+
+### 🌐 **PRODUCTION-READY APPLICATION**
+- FastAPI app for real-time sentiment prediction
+- Clean UI with health and confidence checks
+
+---
+
+## 🛠️ Tech Stack
+
+- **Machine Learning:** Pandas & NumPy, NLTK 
+- **Mlops Tools:** MLflow, DVC, DagShub
+- **Deployement & CICD:** Docker, GitHub Actions, AWS (EC2, ECR) , FastAPI
+
+---
+
+## 📁 Project Structure
 
 ```
-├── LICENSE            <- Open-source license if one is chosen
-├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
-├── README.md          <- The top-level README for developers using this project.
-├── data
-│   ├── external       <- Data from third party sources.
-│   ├── interim        <- Intermediate data that has been transformed.
-│   ├── processed      <- The final, canonical data sets for modeling.
-│   └── raw            <- The original, immutable data dump.
-│
-├── docs               <- A default mkdocs project; see www.mkdocs.org for details
-│
-├── models             <- Trained and serialized models, model predictions, or model summaries
-│
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
-│
-├── pyproject.toml     <- Project configuration file with package metadata for 
-│                         sentiment_classification and configuration for tools like black
-│
-├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-│
-├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.cfg          <- Configuration file for flake8
-│
-└── sentiment_classification   <- Source code for use in this project.
-    │
-    ├── __init__.py             <- Makes sentiment_classification a Python module
-    │
-    ├── config.py               <- Store useful variables and configuration
-    │
-    ├── dataset.py              <- Scripts to download or generate data
-    │
-    ├── features.py             <- Code to create features for modeling
-    │
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
-    │   └── train.py            <- Code to train models
-    │
-    └── plots.py                <- Code to create visualizations
+Sentiment-Classification/
+├── sentiment_classification/
+│   ├── data/              # Data ingestion & preprocessing
+│   ├── features/          # Feature engineering (BoW/TF-IDF)
+│   ├── modeling/          # Training, evaluation, registry
+│   └── connections/       # AWS S3 integration
+├── fastapi_app/
+│   ├── app.py            # FastAPI application
+│   └── templates/        # Web interface
+├── notebooks/            # Experimentation notebooks
+├── scripts/
+│   └── promote_model.py  # Smart model promotion
+├── tests/                # Unit tests
+├── data/                 # Dataset (tracked by DVC)
+├── models/               # Saved models
+├── .github/workflows/    # CI/CD pipeline
+├── dvc.yaml              # DVC pipeline definition
+└── Dockerfile            # Container configuration
 ```
 
---------
+---
 
+
+## 🚀 Setup & Deployment
+
+**Want to run this project?**
+
+👉 **[Complete Setup Instructions](SETUP.md)**
+
+Includes local setup, DVC pipeline execution, MLflow tracking, Docker deployment, and AWS deployment guide.
+
+
+---
+
+
+## 🎓 What I Learned
+
+- Building reproducible ML pipelines with DVC
+- Experiment tracking and model versioning with MLflow
+- Conditional deployment strategies
+- CI/CD for ML systems
+- Docker containerization best practices
+- AWS cloud deployment (ECR + EC2)
+- Writing production-ready ML code
+- Comprehensive testing for ML systems
+
+---
+
+## 🔮 Future Enhancements
+
+- **Kubernetes**: Migrate to K8s for auto-scaling
+- **Redis Caching**: Cache predictions for faster responses
+- **Authentication**: Add user management with OAuth2/JWT
+- **Monitoring**: Implement Prometheus + Grafana dashboards
+- **A/B Testing**: Compare model versions in production
+- **Explainability**: Add SHAP/LIME for prediction explanations
+
+---
+
+## 👤 Author
+
+**Harsh Patel**  
+📧 code.by.hp@gmail.com  
+🔗 [GitHub](https://github.com/CodeBy-HP) • [LinkedIn](https://www.linkedin.com/in/harsh-patel-389593292/)
+
+---
+
+<div align="center">
+
+**⭐ Star this repo if you find it useful**
+
+</div>

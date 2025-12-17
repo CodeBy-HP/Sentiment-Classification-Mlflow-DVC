@@ -1,84 +1,120 @@
-name: CI Pipeline
+# name: CI/CD Pipeline
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  project-testing:
-    runs-on: ubuntu-latest
+# jobs:
+#   project-testing:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v3
+#     steps:
+#       - name: checkout code
+#         uses: actions/checkout@v3
 
-      - name: setup python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
+#       - name: setup python
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: '3.10'
 
-      - name: Cache pip dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+#       - name: Cache pip dependencies
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.cache/pip
+#           key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+#           restore-keys: |
+#             ${{ runner.os }}-pip-
 
-      - name: install dependencies
-        run: |
-          pip install -r requirements.txt
-          python -m nltk.downloader stopwords wordnet
+#       - name: install dependencies
+#         run: |
+#           pip install -r requirements.txt
+#           python -m nltk.downloader stopwords wordnet
 
-      - name: run pipeline
-        env:
-          CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
-        run: |
-          dvc repro
+#       - name: run pipeline
+#         env:
+#           CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
+#         run: |
+#           dvc repro
       
-      - name: Run model tests
-        env:
-          CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
-        run: |
-          python -m unittest tests/test_model.py
+#       - name: Run model tests
+#         env:
+#           CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
+#         run: |
+#           python -m unittest tests/test_model.py
 
-      - name: Promote model to production
-        if: success()
-        env:
-          CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
-        run: python scripts/promote_model.py
+#       - name: Promote model to production
+#         if: success()
+#         env:
+#           CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
+#         run: python scripts/promote_model.py
 
-      - name: Run FastAPI app tests
-        if: success()
-        env:
-          CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
-        run: python -m unittest tests/test_fastapi_app.py
+#       - name: Run FastAPI app tests
+#         if: success()
+#         env:
+#           CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
+#         run: python -m unittest tests/test_fastapi_app.py
 
-      - name: Configure AWS credentials
-        if: success()
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+#       - name: Configure AWS credentials
+#         if: success()
+#         uses: aws-actions/configure-aws-credentials@v2
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        if: success()
-        uses: aws-actions/amazon-ecr-login@v1
+#       - name: Login to Amazon ECR
+#         if: success()
+#         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build Docker image
-        run: |
-            docker build -t ${{ secrets.ECR_REPOSITORY }}:latest .
+#       - name: Build Docker image
+#         run: |
+#             docker build -t ${{ secrets.ECR_REPOSITORY }}:latest .
 
-      - name: Tag Docker image
-        run: |
-            docker tag ${{ secrets.ECR_REPOSITORY }}:latest \
-            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
-            docker tag ${{ secrets.ECR_REPOSITORY }}:latest \
-            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+#       - name: Tag Docker image
+#         run: |
+#             docker tag ${{ secrets.ECR_REPOSITORY }}:latest \
+#             ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+#             docker tag ${{ secrets.ECR_REPOSITORY }}:latest \
+#             ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
-      - name: Push Docker image
-        run: |
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+#       - name: Push Docker image
+#         run: |
+#           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+#           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+
+#   deploy-to-ec2:
+#     needs: project-testing
+#     runs-on: self-hosted
+    
+#     steps:
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v2
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ secrets.AWS_REGION }}
+
+#       - name: Login to Amazon ECR
+#         id: login-ecr
+#         uses: aws-actions/amazon-ecr-login@v1
+
+#       - name: Stop and remove old container
+#         run: |
+#           docker stop sentiment-app || true
+#           docker rm sentiment-app || true
+
+#       - name: Pull and run new container
+#         run: |
+#           docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+#           docker run -d \
+#             --name sentiment-app \
+#             --restart unless-stopped \
+#             -e CAPSTONE_TEST="${{ secrets.CAPSTONE_TEST }}" \
+#             -p 80:8000 \
+#             ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+
+#       - name: Clean up unused images
+#         run: docker image prune -af
+
+      
