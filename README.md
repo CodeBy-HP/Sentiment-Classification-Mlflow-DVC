@@ -16,7 +16,7 @@
 
 ## 🎯 Overview
 
-End-to-end MLOps system for sentiment analysis featuring **automated experimentation**, **intelligent model promotion**, and **cloud deployment**. The pipeline systematically compares 10 model combinations and deploys only when quality improves.
+End-to-end MLOps system for sentiment analysis featuring **automated experimentation**, **intelligent model promotion**, and **cloud deployment**.
 
 ---
 
