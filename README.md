@@ -34,12 +34,15 @@ End-to-end MLOps system for sentiment analysis featuring **automated experimenta
 
 ## 🌈 Architecture and Workflow Diagrams
 
+<div align="center">
+
 <img width="754" height="792" alt="Screenshot 2025-12-17 155305" src="https://github.com/user-attachments/assets/f08d4f8e-984b-4fbc-b10b-2b44176ec1f1" />
 
 <img width="773" height="661" alt="Screenshot 2025-12-17 155321" src="https://github.com/user-attachments/assets/86976a84-dd14-480e-8b8b-601b9febba99" />
 
 <img width="518" height="836" alt="Screenshot 2025-12-17 155355" src="https://github.com/user-attachments/assets/d0b4a76a-bdba-4cae-8f70-8da2b4174bee" />
 
+</div>
 ---
 
 ## ✨ Key Features
