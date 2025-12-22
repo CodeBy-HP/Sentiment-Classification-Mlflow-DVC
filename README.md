@@ -28,7 +28,17 @@ End-to-end MLOps system for sentiment analysis featuring **automated experimenta
 
 ## 🌈 Video Demo
 
-<!-- Add your demo video here -->
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=1DcFVJYJBFA" target="_blank">
+    <img 
+      src="https://img.youtube.com/vi/1DcFVJYJBFA/maxresdefault.jpg"
+      alt="Watch Demo"
+      width="700"
+    />
+  </a>
+</p>
+
+<p align="center"><b>▶️ Click to watch demo</b></p>
 
 ---
 
